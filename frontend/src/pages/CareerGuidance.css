@@ -1,0 +1,81 @@
+.guidance-container {
+  padding: 40px 5%;
+  background: #f8faff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.guidance-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #4480ff;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.guidance-header h1 {
+  font-size: 2.2rem;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+.guidance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.guidance-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: 0.3s;
+  text-align: center;
+}
+
+.guidance-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(68, 128, 255, 0.1);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.guidance-card h3 {
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.guidance-card p {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.read-more-btn {
+  padding: 10px 25px;
+  background: #eef2ff;
+  color: #4480ff;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.read-more-btn:hover {
+  background: #4480ff;
+  color: white;
+}
