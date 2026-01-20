@@ -23,9 +23,9 @@ app.use((req, res, next) => {
 // --- MIDDLEWARES ---
 app.use(cors({
   origin: [
-    "https://job-board-naina.netlify.app", 
-    /\.netlify\.app$/,                    
-    "https://codesoft-sable.vercel.app"
+    "http://localhost:5173",         
+    "http://192.168.1.192:5173",     
+    "https://job-board-naina.netlify.app"
   ],
   credentials: true
 }));

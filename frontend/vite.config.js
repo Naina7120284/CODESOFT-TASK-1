@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5001", //To link backend with frontend
+        target: "http://localhost:5000",
       },
     },
   },
