@@ -25,9 +25,8 @@ app.use(cors({
   origin: [
     "http://localhost:5173",         
     "http://192.168.1.192:5173",
-    "https://job-board-v2.vercel.app",
-    "https://job-board-naina.netlify.app",
-    "https://job-board-fojg.onrender.com"
+    "https://job-board-fojg.onrender.com",
+    "https://job-board-naina.netlify.app"
   ],
   credentials: true
 }));
