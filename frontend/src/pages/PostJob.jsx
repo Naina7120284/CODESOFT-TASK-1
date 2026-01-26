@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Navbar from '../components/Navbar'; 
 
 const PostJob = () => {
   const navigate = useNavigate();
@@ -54,7 +53,6 @@ const PostJob = () => {
 
   return (
     <div className="auth-master-wrapper" style={{ flexDirection: 'column' }}>
-      <Navbar /> 
 
       <div className="auth-glass-card post-job-card" 
            style={{ 
