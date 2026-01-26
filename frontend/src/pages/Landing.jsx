@@ -181,7 +181,6 @@ const handleViewDetails = (jobId) => {
       <div className="footer-col">
         <h4>Platform</h4>
         <ul>
-          <li><span className="footer-link" onClick={() => handleNavClick('/jobs')}>Browse Jobs</span></li>
           <li><span className="footer-link" onClick={() => handleNavClick('/Hero')}>Categories</span></li>
           <li><span className="footer-link" onClick={() => handleNavClick('/Hero')}>Companies</span></li>
         </ul>
@@ -203,7 +202,6 @@ const handleViewDetails = (jobId) => {
       © 2026 JOBBOARD. Crafted for Developers.
     </div>
     
-    {/* Professional Social Links with Spacing & Logos */}
     <div className="footer-socials">
       <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-link linkedin">
         <FaLinkedin />
