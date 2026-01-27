@@ -53,7 +53,7 @@ export const submitApplication = async (req, res) => {
 
         // Send Confirmation Email
         const applicationMail = {
-          from: '"JobBoard"<${process.env.EMAIL_USER}>',
+          from: `"JobBoard" <${process.env.EMAIL_USER}>`,
           to: candidateEmail, 
           subject: `Application Received: ${jobTitle}`,
           html: `
