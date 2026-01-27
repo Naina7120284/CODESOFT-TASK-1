@@ -3,18 +3,16 @@ import Job from '../models/Job.js';
 import User from '../models/User.js';
 import nodemailer from 'nodemailer'; 
 
+// --- PRIVATE EMAIL ENGINE ---
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS 
-    },
- tls: {
-      rejectUnauthorized: false 
     }
   });
   return await transporter.sendMail(options);
@@ -24,12 +22,14 @@ export const submitApplication = async (req, res) => {
     try {
         console.log("Incoming Body:", req.body);
 
+        // 1. ADD THIS LINE: Destructure everything you need from req.body
         const { 
             userId, jobId, jobTitle, company, 
             candidateEmail, firstName, lastName, 
             phone, experience, currentCity 
         } = req.body;
 
+        // 2. Prepare the data for MongoDB
         const applicationData = {
             userId,
             jobId,
@@ -41,6 +41,7 @@ export const submitApplication = async (req, res) => {
             phone,
             experience,
             currentCity,
+            // Capture the uploaded file path
             resume: req.file ? `/uploads/${req.file.filename}` : "", 
             status: "Pending"
         };
@@ -49,8 +50,10 @@ export const submitApplication = async (req, res) => {
         const savedApp = await newApp.save();
         
 
+
+        // Send Confirmation Email
         const applicationMail = {
-          from: `"JobBoard" <${process.env.EMAIL_USER}>`,
+          from: '"JobBoard" <no-reply@jobboard.com>',
           to: candidateEmail, 
           subject: `Application Received: ${jobTitle}`,
           html: `
@@ -75,20 +78,15 @@ export const submitApplication = async (req, res) => {
             </div>`
         };
 
-      try {
-            await sendEmail(applicationMail);
-            console.log("Confirmation email sent successfully.");
-        } catch (emailError) {
-            console.error("EMAIL SERVICE ERROR (Application still saved):", emailError.message);
-        }
-        return res.status(201).json({ message: "Success!", data: savedApp });
+      await sendEmail(applicationMail);
+        res.status(201).json({ message: "Success!", data: newApp });
 
     } catch (error) {
         console.error("SUBMISSION ERROR:", error.message);
         res.status(500).json({ error: error.message });
     }
 };
-
+// 2. GET CANDIDATE APPLICATIONS (Preserved)
 export const getCandidateApplications = async (req, res) => {
     try {
         const apps = await Application.find({ userId: req.params.candidateId });
@@ -98,7 +96,7 @@ export const getCandidateApplications = async (req, res) => {
     }
 };
 
-
+// 3. GET EMPLOYER APPLICATIONS (Preserved)
 export const getEmployerApplications = async (req, res) => {
     try {
         const { employerId } = req.params;
@@ -111,7 +109,7 @@ export const getEmployerApplications = async (req, res) => {
     }
 };
 
-
+// 4. UPDATE STATUS (Preserved)
 export const updateApplicationStatus = async (req, res) => {
     try {
         const { appId } = req.params;
