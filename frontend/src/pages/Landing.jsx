@@ -6,12 +6,8 @@ import "./Landing.css";
 
 const Landing = () => {
   const [jobs, setJobs] = useState([]); 
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const navigate = useNavigate();
-
- 
+  const navigate = useNavigate(); 
 useEffect(() => {
   const fetchJobs = async () => {
     try {
@@ -36,8 +32,6 @@ useEffect(() => {
   if (!user) {
     
     sessionStorage.setItem('redirectAfterLogin', path);
-    
-   
     if (path.includes('employer')) {
       sessionStorage.setItem('intendedRole', 'employer');
     } else if (path.includes('candidate')) {
@@ -66,7 +60,6 @@ const handleExploreMore = () => {
 const handleViewDetails = (jobId) => {
   const user = localStorage.getItem('user');
   if (!user) {
-    // Save the intended path so they go there after logging in
     sessionStorage.setItem('redirectAfterLogin', `/job/${jobId}`);
     toast.info("Please login to see full job details");
     navigate('/auth');
@@ -100,8 +93,6 @@ const handleViewDetails = (jobId) => {
           <Link to="/auth" className="btn-auth">Login</Link>
         </div>
       </nav>
-
-    
       <header className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">
@@ -115,8 +106,6 @@ const handleViewDetails = (jobId) => {
           <button onClick={() => handleNavClick('/Hero')} className="main-cta-btn">Get Started</button>
         </div>
       </header>
-
-    
       <section className="jobs-section" id="jobs">
         <div className="section-container">
           <h2 className="section-title">Top <span className="highlight-text">Job Openings</span></h2>
@@ -145,8 +134,6 @@ const handleViewDetails = (jobId) => {
           </div>
         </div>
       </section>
-
- 
       <section className="about-modern-section" id="about">
         <div className="about-content-wrapper">
           <div className="about-header">
@@ -175,8 +162,6 @@ const handleViewDetails = (jobId) => {
       <h2 className="footer-logo">JOB<span>BOARD</span></h2>
       <p className="footer-tagline">Empowering careers through world-class opportunities and professional growth.</p>
     </div>
-
-    
     <div className="footer-links-grid">
       <div className="footer-col">
         <h4>Platform</h4>
