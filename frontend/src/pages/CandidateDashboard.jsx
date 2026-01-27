@@ -14,16 +14,13 @@ import WorkIcon from '@mui/icons-material/Work';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 const CandidateDashboard = () => {
-    // --- AUTH & DATA STATES ---
+  
     const [currentUser, setCurrentUser] = useState(null); 
     const [applications, setApplications] = useState([]);
     const [savedJobs, setSavedJobs] = useState([]); 
     const [activeTab, setActiveTab] = useState('My Profile'); 
-    
-    // --- PROFILE FORM STATES ---
     const [resumeFile, setResumeFile] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
-    
     const [formData, setFormData] = useState({
         fullName: '',
         headline: '',
@@ -35,8 +32,6 @@ const CandidateDashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedJob, setSelectedJob] = useState(null);
     const navigate = useNavigate();
-
-    // --- LOGIC FUNCTIONS ---
     const fetchApplications = async (userId) => {
         try {
             const res = await fetch(`${window.API_URL}/api/applications/user/${userId}`);
@@ -128,7 +123,6 @@ const CandidateDashboard = () => {
         const savedUser = JSON.parse(localStorage.getItem('user'));
         if (savedUser) {
             setCurrentUser(savedUser);
-            // Extra Logic: Sync existing user data into form
             setFormData({
                 fullName: savedUser.name || '',
                 headline: savedUser.headline || '',

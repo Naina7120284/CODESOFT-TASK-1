@@ -2,8 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
-
-// Import your pages
 import Landing from './pages/Landing';
 import Auth from "./pages/Auth"; 
 import Hero from "./components/Hero";
@@ -19,7 +17,6 @@ import PostJob from './pages/PostJob';
 import JobListing from './pages/JobListing';
 import Navbar from './components/Navbar';
 
-// --- THE SMART GUARD ---
 const ProtectedRoute = ({ children, adminOnly = false , employerOnly = false, candidateOnly = false}) => {
   const userString = localStorage.getItem('user');
   const user = userString ? JSON.parse(userString) : null;
@@ -70,13 +67,11 @@ function App() {
       <ToastContainer position="top-right" autoClose={3000} />
      <NavbarWrapper user={user} />
       <Routes>
-        {/* --- PUBLIC ROUTES --- */}
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/job/:id" element={<JobDetails />} />
         <Route path="/complete-profile" element={<RegisterProfile />} />
 
-        {/* --- PROTECTED ROUTES --- */}
         <Route path="/Hero" element={<ProtectedRoute><Hero /></ProtectedRoute>} />
         
         <Route path="/admin/dashboard" element={
@@ -91,8 +86,6 @@ function App() {
              <CandidateDashboard />
           </ProtectedRoute>
         }/>
-
-       
 
         <Route 
           path="/employer-dashboard" 
@@ -111,8 +104,6 @@ function App() {
             </ProtectedRoute>
           } 
         />
-
-  
         <Route path="/jobs" element={<ProtectedRoute><JobListing /></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="/career-guidance" element={<ProtectedRoute><CareerGuidance /></ProtectedRoute>} />

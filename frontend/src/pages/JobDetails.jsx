@@ -48,11 +48,8 @@ const handleApply = async (e) => {
         toast.error("Please upload your resume first!");
         return;
     }
-
     try {
-   
         const dataToSend = new FormData();
-       
         dataToSend.append('resume', selectedFile);
         dataToSend.append('userId', user._id);
         dataToSend.append('jobId', job._id);
@@ -73,7 +70,6 @@ const handleApply = async (e) => {
         });
 
         const data = await res.json();
-
         if (res.ok) {
             toast.success("Application submitted successfully!");
             setIsModalOpen(false);
@@ -87,7 +83,6 @@ const handleApply = async (e) => {
         toast.error("Server error. Please check your connection.");
     }
 };
-
 
     useEffect(() => {
         const user = localStorage.getItem('user');

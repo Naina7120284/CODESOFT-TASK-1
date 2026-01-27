@@ -33,7 +33,7 @@ function AddJob() {
         description: "",
       });
 
-      // reload page to see job
+     
       window.location.reload();
 
     } catch (error) {

@@ -2,8 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-
-// --- IMPORT ROUTES 
 import jobRoutes from "./routes/jobRoutes.js";
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js'; 
@@ -20,7 +18,7 @@ app.use((req, res, next) => {
   console.log(`${req.method} request received at: ${req.url}`);
   next();
 });
-// --- MIDDLEWARES ---
+
 app.use(cors({
   origin: [
     "http://localhost:5173",         
@@ -51,7 +49,6 @@ app.get("/", (req, res) => {
 
 console.log("3. Routes initialized...");
 
-// --- DATABASE CONNECTION ---
 const MONGO_URL = process.env.MONGODB_URI || process.env.MONGO_URL; 
 
 if (!MONGO_URL) {

@@ -2,8 +2,6 @@ import express from 'express';
 import nodemailer from 'nodemailer';
 
 const router = express.Router();
-
-// 1. Setup the Email Transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
   auth: {
@@ -12,13 +10,12 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// 2. The Contact API Route
+
 router.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
-
   const mailOptions = {
     from: email,
-    to: 'jobboard326@gmail.com', // Where you want to receive messages
+    to: 'jobboard326@gmail.com', 
     subject: `New Career Inquiry from ${name}`,
     html: `
       <div style="font-family: sans-serif; padding: 20px; border: 1px solid #7c3aed; border-radius: 10px;">

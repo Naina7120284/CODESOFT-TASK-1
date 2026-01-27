@@ -19,8 +19,6 @@ import User from '../models/User.js';
 const router = express.Router();
 
 const CloudinaryStorage = multerCloudinary.CloudinaryStorage || multerCloudinary;
-
-// --- CLOUDINARY CONFIG ---
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
   api_key: process.env.CLOUDINARY_API_KEY, 
@@ -37,11 +35,8 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage: storage });
 
-// --- AUTHENTICATION ---
 router.post('/register', registerUser);
-router.post('/login', loginUser);
-
-// --- PROFILE UPDATES ---
+router.post('/login', loginUser);-
 router.post('/update-profile-pic', upload.single('profilePic'), async (req, res) => {
   try {
     const { userId } = req.body; 
@@ -77,19 +72,12 @@ router.put('/update-profile/:id', async (req, res) => {
     }
 });
 
-// Preserved OTP Flow
 router.put('/update-profile', updateProfile);
 router.post('/verify-otp', verifyOtpAndUpdate);
-
-
-
-// --- ACCOUNT SECURITY ---
 router.put('/update-password', updatePassword); 
-
 router.post('/save-job', async (req, res) => {
     const { userId, jobId } = req.body;
     try {
-        
         const updatedUser = await User.findByIdAndUpdate(
             userId,
             { $addToSet: { savedJobs: jobId } }, 
@@ -107,7 +95,5 @@ router.get('/saved-jobs/:id', async (req, res) => {
         res.status(200).json(user.savedJobs);
     } catch (err) { res.status(500).json(err); }
 });
-
 router.post('/unsave-job', unsaveJob);
-
 export default router;

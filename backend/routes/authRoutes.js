@@ -4,8 +4,6 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 const router = express.Router();
-
-// Middleware to verify logged-in users
 const authMiddleware = async (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
   if (!token) return res.status(401).json({ message: "No token, authorization denied" });
@@ -18,7 +16,6 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-// SIGNUP ROUTE
 router.post('/signup', async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -39,7 +36,6 @@ router.post('/signup', async (req, res) => {
 
     const token = jwt.sign({ id: user._id, role: user.role }, 'your_jwt_secret', { expiresIn: '1d' });
     
-    // UPDATED RESPONSE: Using _id and matching login format
     res.status(201).json({ 
       token, 
       user: { 
@@ -58,7 +54,6 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// LOGIN ROUTE
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -69,8 +64,7 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: "Invalid Credentials" });
 
     const token = jwt.sign({ id: user._id, role: user.role }, 'your_jwt_secret', { expiresIn: '1d' });
-    
-    // UPDATED RESPONSE: Ensuring all fields are sent to the frontend
+  
     res.status(200).json({
       message: "Login successful",
       token,
@@ -90,7 +84,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// --- ADMIN LOGIN ROUTE ---
 router.post('/admin/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -101,8 +94,6 @@ router.post('/admin/login', async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
-
-    // Generate Token and return Admin Data
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
     res.json({ token, user: { name: user.name, role: user.role } });
   } catch (err) {
@@ -110,7 +101,6 @@ router.post('/admin/login', async (req, res) => {
   }
 });
 
-// PERMANENT IMAGE SAVE
 router.post('/update-profile-pic', authMiddleware, async (req, res) => {
   try {
     const { profilePic } = req.body;

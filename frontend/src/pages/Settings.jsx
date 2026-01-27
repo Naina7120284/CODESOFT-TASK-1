@@ -6,13 +6,9 @@ import './Settings.css';
 const Settings = () => {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem('user'));
-
-  // --- PASSWORD UPDATE STATE ---
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
-
-  // --- CUSTOM MODAL STATE ---
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
 
@@ -21,11 +17,9 @@ const Settings = () => {
     setShowModal(true);
   };
 
-
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     
-   
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
     if (!passwordRegex.test(newPassword)) {
       return toast.error("New password must be at least 6 characters and include a letter and a number.");
@@ -44,7 +38,6 @@ const Settings = () => {
       });
 
       const data = await res.json();
-
       if (res.ok) {
         toast.success("Security Verified! Check your email for confirmation.");
         setCurrentPassword("");
@@ -75,7 +68,6 @@ const Settings = () => {
 
   return (
     <div className="aesthetic-settings-wrapper">
-      {/* --- PREMIUM GLASS MODAL --- */}
       {showModal && (
         <div className="modal-overlay">
           <div className="glass-modal">
@@ -110,7 +102,6 @@ const Settings = () => {
         </header>
 
         <div className="aesthetic-grid">
-          {/* SECURITY SECTION */}
           <div className="pearl-card">
             <div className="card-icon-header">
               <span className="icon-bg">🛡️</span>
@@ -144,8 +135,6 @@ const Settings = () => {
               </button>
             </form>
           </div>
-
-          {/* SECTION 2: DISCOVERY */}
           <div className="pearl-card">
             <div className="card-icon-header">
               <span className="icon-bg">👁️</span>
@@ -169,8 +158,6 @@ const Settings = () => {
               </div>
             </div>
           </div>
-
-          {/* DATA MANAGEMENT SECTION */}
           <div className="pearl-card danger-pearl">
             <div className="card-icon-header">
               <span className="icon-bg">⚠️</span>

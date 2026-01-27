@@ -59,7 +59,6 @@ const AdminApplications = () => {
         <div className="fade-in">
             <h1 className="view-title">Applications Management</h1>
 
-            {/* --- MINI STATS BOXES --- */}
             <div className="mini-stats-container">
                 <div className="mini-stat-box all">
                     <div className="mini-icon"><MdAssignment /></div>
@@ -94,7 +93,6 @@ const AdminApplications = () => {
               </button>
             </div>
 
-            {/* --- APPLICATIONS TABLE --- */}
             <div className="table-container-premium">
                 <table className="admin-table">
                     <thead>
@@ -118,7 +116,6 @@ const AdminApplications = () => {
                               </div>
                         </td>
                       <td>
-                         {/* Accessing populated jobId */}
                              <strong>{app.jobId?.title || app.jobTitle}</strong>
                           </td>
                           <td className="company-name-highlight">
@@ -147,7 +144,7 @@ const AdminApplications = () => {
               </tbody>
             </table>
              </div>
-             {/* CANDIDATE MODAL */}
+
 {selectedApp && (
     <div className="modal-overlay" onClick={() => setSelectedApp(null)}>
         <div className="premium-modal" onClick={e => e.stopPropagation()}>
