@@ -78,8 +78,13 @@ export const submitApplication = async (req, res) => {
             </div>`
         };
 
-      await sendEmail(applicationMail);
-        res.status(201).json({ message: "Success!", data: newApp });
+      try {
+            await sendEmail(applicationMail);
+            console.log("Confirmation email sent successfully.");
+        } catch (emailError) {
+            console.error("EMAIL SERVICE ERROR (Application still saved):", emailError.message);
+        }
+        return res.status(201).json({ message: "Success!", data: savedApp });
 
     } catch (error) {
         console.error("SUBMISSION ERROR:", error.message);
