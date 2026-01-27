@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now },
   
-  // --- MOBILE & VERIFICATION SECTION ---
   mobile: { 
     type: String,
     default: null,
@@ -58,7 +57,7 @@ const userSchema = new mongoose.Schema({
     type: Date 
   },
 
-  // --- PROFILE DETAILS SECTION ---
+
   workStatus: { 
     type: String, 
     enum: ['fresher', 'experienced'], 
@@ -81,7 +80,6 @@ const userSchema = new mongoose.Schema({
     default: false 
   },
 
-  // --- SAVED JOBS SECTION ---
   savedJobs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Job' 

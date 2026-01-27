@@ -15,7 +15,6 @@ export const postJob = async (req, res) => {
   }
 };
 
-// 2. GET ALL JOBS (Preserved)
 export const getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find().sort({ createdAt: -1 }); 
@@ -25,7 +24,6 @@ export const getAllJobs = async (req, res) => {
   }
 };
 
-// 3. GET SINGLE JOB BY ID (Preserved)
 export const getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
@@ -36,7 +34,6 @@ export const getJobById = async (req, res) => {
   }
 };
 
-// DELETE JOB BY ID
 export const deleteJob = async (req, res) => {
   try {
     const job = await Job.findByIdAndDelete(req.params.id);
@@ -47,7 +44,6 @@ export const deleteJob = async (req, res) => {
   }
 };
 
-// 4. SEARCH JOBS (Preserved)
 export const searchJobs = async (req, res) => {
   try {
     const { title, location } = req.query;
@@ -61,7 +57,6 @@ export const searchJobs = async (req, res) => {
   }
 };
 
-// 5. UNSAVE JOB (Now with safe User import)
 export const unsaveJob = async (req, res) => {
     const { userId, jobId } = req.body;
     try {

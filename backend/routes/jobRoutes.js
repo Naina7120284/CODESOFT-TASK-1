@@ -9,8 +9,6 @@ import {
 } from '../controllers/jobController.js';
 
 const router = express.Router();
-
-
 router.get('/', getAllJobs);
 router.get('/all', getAllJobs);
 router.get('/search', searchJobs);

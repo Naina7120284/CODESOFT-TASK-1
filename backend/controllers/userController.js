@@ -9,15 +9,12 @@ import Settings from '../models/Settings.js';
 
 dotenv.config();
 
-// 1. Setup the connection to Cloudinary using your .env
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 
-
-// --- FIXED EMAIL TRANSPORTER ---
 const sendEmail = async (options) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -49,20 +46,13 @@ const LOGO_HTML = `
     </td>
   </tr>`;
 
-// --- REGISTER USER ---
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
-
-    // 1. Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ message: "User already exists" });
-
-    // 2. Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
-    // 3. Create the New User object
     const user = new User({
       name,
       email,
@@ -71,10 +61,7 @@ export const registerUser = async (req, res) => {
       isProfileComplete: false
     });
 
-    // 4. Save to MongoDB Atlas
     await user.save();
-    
-    // 5. AUTO-LOGIN: Send the full user object back to the frontend
     res.status(201).json({
         message: "User registered successfully",
         user: {
@@ -89,7 +76,6 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// --- LOGIN FUNCTION ---
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -108,7 +94,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// --- UPDATE PASSWORD (FIXED: NOW SENDS EMAIL) ---
 export const updatePassword = async (req, res) => {
   try {
     const { userId, currentPassword, newPassword } = req.body;
@@ -125,8 +110,6 @@ export const updatePassword = async (req, res) => {
     const siteSettings = await Settings.findOne();
     const customSubject = siteSettings?.template || "Security Alert: Password Changed";
     const customFrom = siteSettings?.fromEmail || "no-reply@jobboard.com";
-
-    // Fancy Security Alert Email
     const mailOptions = {
       from: `"JobBoard Security" <${customFrom}>`,
       to: user.email,
@@ -155,8 +138,6 @@ export const updatePassword = async (req, res) => {
           </table>
         </div>`
     };
-
-
     await sendEmail(mailOptions);
     res.status(200).json({ message: "Password updated successfully!" });
   } catch (error) {
@@ -164,7 +145,6 @@ export const updatePassword = async (req, res) => {
   }
 };
 
-// --- REQUEST OTP (FANCY BRANDED EMAIL) ---
 export const updateProfile = async (req, res) => {
   try {
     const { userId, mobile } = req.body;
@@ -212,10 +192,9 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-// Add this or update your existing update-profile-full logic in userController.js
 export const updateProfileFull = async (req, res) => {
     try {
-        console.log("Starting Profile Update for User:", req.body.userId); // Debug log
+        console.log("Starting Profile Update for User:", req.body.userId);
         
         const { userId, name, headline, mobile, location, bio } = req.body;
         
@@ -228,22 +207,21 @@ export const updateProfileFull = async (req, res) => {
             isProfileComplete: true
         };
 
-        // Check if a file was successfully uploaded to Cloudinary
         if (req.file) {
-            console.log("Resume Uploaded to:", req.file.path); // Debug log
+            console.log("Resume Uploaded to:", req.file.path);
             updateData.resumeUrl = req.file.path; 
         }
 
         const updatedUser = await User.findByIdAndUpdate(
             userId,
             { $set: updateData },
-            { new: true, runValidators: false } // Avoid email validation errors
+            { new: true, runValidators: false }
         ).select('-password');
 
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }
-        
+
         res.status(200).json({ message: "Profile Updated", user: updatedUser });
     } catch (err) {
         console.error("DETAILED ERROR:", err);
@@ -251,7 +229,6 @@ export const updateProfileFull = async (req, res) => {
     }
 };
 
-// --- VERIFY OTP AND SEND FANCY SUCCESS EMAIL ---
 export const verifyOtpAndUpdate = async (req, res) => {
   try {
     const { userId, otp, mobile, education } = req.body;
@@ -308,7 +285,6 @@ export const verifyOtpAndUpdate = async (req, res) => {
   }
 };
 
-// --- UPLOAD PROFILE PICTURE ---
 export const uploadProfilePic = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -326,24 +302,20 @@ export const uploadProfilePic = async (req, res) => {
   }
 };
 
-// --- UNSAVE A JOB (Fixed to bypass validation errors) ---
 export const unsaveJob = async (req, res) => {
   try {
     const { userId, jobId } = req.body;
-
-    // We use findByIdAndUpdate with specific options to bypass the 'email required' check
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $pull: { savedJobs: jobId } }, 
       { 
         new: true, 
-        runValidators: false, // CRITICAL: This stops Mongoose from checking 'required' fields
+        runValidators: false,
         context: 'query' 
       }
-    ).select('-password'); // Don't send the password back for security
+    ).select('-password'); 
 
     if (!updatedUser) return res.status(404).json({ message: "User not found" });
-
     res.status(200).json({ 
       message: "Removed from saved list", 
       savedJobs: updatedUser.savedJobs 
